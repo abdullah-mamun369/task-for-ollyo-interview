@@ -9,55 +9,12 @@ import Product from './Components/Product'
 
 export default function Home() {
 
-  const imagesJson = [
-    {
-      "id": "1",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-1.webp"
-    },
-    {
-      "id": "2",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-2.webp"
-    },
-    {
-      "id": "3",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-3.webp"
-    },
-    {
-      "id": "4",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-4.webp"
-    },
-    {
-      "id": "5",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-5.webp"
-    },
-    {
-      "id": "6",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-6.webp"
-    },
-    {
-      "id": "7",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-7.webp"
-    },
-    {
-      "id": "8",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-8.webp"
-    },
-    {
-      "id": "9",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-9.webp"
-    },
-    {
-      "id": "10",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-10.jpeg"
-    },
-    {
-      "id": "11",
-      "imageUrl": "https://ollyo-task-free-host.netlify.app/image-11.jpeg"
-    }
-  ];
-
+  const [originalImage, setOriginalImage] = useState([])
   const [selected, setSelected] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
+
+
+
 
   const handleSelected = () => {
     setIsChecked(!isChecked);
@@ -65,16 +22,18 @@ export default function Home() {
   }
 
 
-  // const [originalImage, setOriginalImage] = useState([])
+  useEffect(() => {
+
+    fetch("images.json")
+      .then(res => res.json())
+      .then(data => setOriginalImage(data))
+
+  }, [])
+
+
   // // const [shuffledData, setShuffledData] = useState(originalImage);
 
-  // useEffect(() => {
 
-  //   fetch("images.json")
-  //     .then(res => res.json())
-  //     .then(data => setOriginalImage(data))
-
-  // }, [])
 
   // function shuffleArray(array) {
   //   const shuffledArray = [...array];
@@ -98,6 +57,8 @@ export default function Home() {
   // // const selectedImageUrl = selectedImageIndex.imageUrl;
 
   // // console.log(selectedImageUrl);
+
+  // console.log(originalImage);
 
   return (
     <>
@@ -128,8 +89,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {
-            imagesJson.map(product => <Product
+          {originalImage &&
+            originalImage.map(product => <Product
               key={product.id}
               product={product}
               isChecked={isChecked}
