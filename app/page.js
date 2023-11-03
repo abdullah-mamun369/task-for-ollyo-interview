@@ -56,9 +56,16 @@ export default function Home() {
     }
   ];
 
+  const [selected, setSelected] = useState(0)
+  const [isChecked, setIsChecked] = useState(false)
+
+  const handleSelected = () => {
+    setIsChecked(!isChecked);
+    setSelected(isChecked ? selected - 1 : selected + 1)
+  }
 
 
-  // const [originalImage, setOriginalImage] = useState(null)
+  // const [originalImage, setOriginalImage] = useState([])
   // // const [shuffledData, setShuffledData] = useState(originalImage);
 
   // useEffect(() => {
@@ -88,9 +95,9 @@ export default function Home() {
 
   // const selectedImageIndex = originalImage[0];
 
-  // const selectedImageUrl = selectedImageIndex.imageUrl;
+  // // const selectedImageUrl = selectedImageIndex.imageUrl;
 
-  // console.log(selectedImageUrl);
+  // // console.log(selectedImageUrl);
 
   return (
     <>
@@ -103,8 +110,8 @@ export default function Home() {
           </div> */}
           <div className='h-16 flex items-center mx-auto w-full xl:w-8/12 justify-between'>
             {/* <input className='form-checkbox h-6 w-6 rounded-full text-purple-600' type="checkbox" checked /> */}
-            <h3 className='flex items-center text-xl font-bold'><BsFillCheckSquareFill className=' text-purple-700 mr-2' /> 2 Files Selected</h3>
-            {/* <button onClick={shuffle} className='font-bold text-purple-700 hover:text-red-700'>Delete file</button> */}
+            <h3 className='flex items-center text-xl font-bold'><BsFillCheckSquareFill className=' text-purple-700 mr-2' /> {selected} Files Selected</h3>
+            <button className='font-bold text-purple-700 hover:text-red-700'>Delete file</button>
           </div>
         </nav>
 
@@ -112,12 +119,21 @@ export default function Home() {
 
         <section className='mx-auto w-full xl:w-8/12 grid grid-cols-5 gap-3'>
           <div className='col-span-2 row-span-2 border rounded-lg'>
-            <Image className='rounded-lg' src={image1} alt='ollyo_product' width={1500} height={1500}></Image>
+            <div className='group'>
+              <div className='border rounded-lg relative overflow-hidden'>
+                <Image className='rounded-lg' src={image1} alt='ollyo_product' width={1500} height={1500}></Image>
+                <div className='absolute h-full w-full bg-black/40 flex justify-end p-5 -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300'>
+                  <input checked={isChecked} onChange={handleSelected} className='form-checkbox h-6 w-6 rounded-full text-purple-600 bg-purple-600' type="checkbox" />
+                </div>
+              </div>
+            </div>
           </div>
           {
             imagesJson.map(product => <Product
               key={product.id}
               product={product}
+              isChecked={isChecked}
+              handleSelected={handleSelected}
             >
             </Product>)
           }
