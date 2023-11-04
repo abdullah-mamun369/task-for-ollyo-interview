@@ -10,7 +10,7 @@ import Product from './Components/Product'
 export default function Home() {
 
   const [selected, setSelected] = useState(0)
-  // const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
   const [shuffledData, setShuffledData] = useState([]);
 
   const handleSelected = (id, isChecked) => {
@@ -81,6 +81,8 @@ export default function Home() {
               product={product}
               handleSelected={handleSelected}
               index={index}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
             >
             </Product>)
           }
