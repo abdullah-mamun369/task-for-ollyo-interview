@@ -6,10 +6,12 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 const Product = (props) => {
 
-    const { product, handleSelected, handleDelete, index, draggableId } = props;
+    const { product, handleSelected, index, draggableId } = props;
     const { id, imageUrl } = product;
 
     const [isChecked, setIsChecked] = useState(false)
+
+    // console.log(draggableId);
 
     // console.log(index);
 
@@ -31,7 +33,6 @@ const Product = (props) => {
                                         <input onChange={() => {
                                             setIsChecked(!isChecked);
                                             handleSelected(id, isChecked);
-                                            handleDelete(id, isChecked);
                                         }} className='form-checkbox h-6 w-6 rounded-full text-purple-600 bg-purple-600' type="checkbox" />
                                     </div>
                                 </div>
@@ -47,7 +48,7 @@ const Product = (props) => {
             <Draggable draggableId={draggableId} index={index}>
                 {
                     (provided) => (
-                        <div className='group' {...provided.dragHandleProps} {...provided.draggableProps} ref={provided.innerRef}>
+                        <div className='group' {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                             <div className='border rounded-lg relative overflow-hidden'>
                                 <Image className='rounded-lg' src={imageUrl} alt='ollyo_product' width={1500} height={1500}></Image>
                                 <div
@@ -56,7 +57,6 @@ const Product = (props) => {
                                     <input onChange={() => {
                                         setIsChecked(!isChecked);
                                         handleSelected(id, isChecked);
-                                        handleDelete(id, isChecked);
                                     }} className='form-checkbox h-6 w-6 rounded-full text-purple-600 bg-purple-600' type="checkbox" />
                                 </div>
                             </div>
