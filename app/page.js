@@ -6,15 +6,24 @@ import { BsFillCheckSquareFill } from 'react-icons/bs'
 import image1 from "./assets/images/image-10.jpeg"
 import { useEffect, useState } from 'react'
 import Product from './Components/Product'
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 export default function Home() {
 
   const [selected, setSelected] = useState(0)
-  const [isChecked, setIsChecked] = useState(false)
+  // const [isChecked, setIsChecked] = useState(false)
   const [shuffledData, setShuffledData] = useState([]);
 
   const handleSelected = (id, isChecked) => {
     setSelected(isChecked ? selected - 1 : selected + 1)
+  }
+
+  const handleDelete = (id, isChecked) => {
+    const selectedImage = [];
+    if (!isChecked) {
+
+    }
+
   }
 
 
@@ -66,27 +75,33 @@ export default function Home() {
             <h3 className='flex items-center text-xl font-bold'><BsFillCheckSquareFill className=' text-purple-700 mr-2' /> {selected} Files Selected</h3>
             <div>
               <button onClick={() => shuffle(shuffledData)} className='font-bold text-purple-700 hover:text-red-700 mr-5'>Shuffle Images</button>
-              <button className='font-bold text-purple-700 hover:text-red-700'>Delete file</button>
+              <button onClick={handleDelete} className='font-bold text-purple-700 hover:text-red-700'>Delete file</button>
             </div>
           </div>
         </nav>
 
         {/* Drag&Drop box start================================================= */}
+        <DragDropContext>
+          <Droppable droppableId="ROOT" type='group' >
 
-        <section className='mx-auto w-full xl:w-8/12 grid grid-cols-5 gap-3'>
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto w-full xl:w-8/12 grid grid-cols-5 gap-3'>
+                {shuffledData &&
+                  shuffledData.map((product, index) => <Product
+                    key={product.id}
+                    product={product}
+                    handleSelected={handleSelected}
+                    handleDelete={handleDelete}
+                    index={index}
+                    draggableId={product.id}
+                  >
+                  </Product>)
+                }
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
 
-          {shuffledData &&
-            shuffledData.map((product, index) => <Product
-              key={product.id}
-              product={product}
-              handleSelected={handleSelected}
-              index={index}
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-            >
-            </Product>)
-          }
-        </section>
 
       </main>
     </>
