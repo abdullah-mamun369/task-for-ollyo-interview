@@ -38,6 +38,7 @@ export default function Home() {
         return acc
       }, [])
       setSelectedItems(data)
+      setDragImageArray(data)
     }
   }
 
@@ -47,6 +48,7 @@ export default function Home() {
   const handleDelete = () => {
     const newImageList = shuffledData.filter(item => !selectedItems.includes(item.id))
     setShuffledData(newImageList)
+    setDragImageArray(newImageList)
     setSelected(0)
   }
 
@@ -73,14 +75,9 @@ export default function Home() {
 
   //On Drag End function (React Beautiful DND default implementation)=================================================
   const handleOnDragEnd = (result) => {
+    console.log(result);
 
-    if (!result.destination) return;
-
-    const items = Array.from(dragImageArray);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setDragImageArray(items);
+    [shuffledData[result.destination.index], shuffledData[result.source.index]] = [shuffledData[result.source.index], shuffledData[result.destination.index]]
 
   }
 
@@ -113,7 +110,7 @@ export default function Home() {
 
         {/* Drag&Drop box start================================================= */}
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="image-box" type="group" >
+          <Droppable droppableId="18" type="group" >
 
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto w-full xl:w-8/12 grid grid-cols-5 gap-3'>
