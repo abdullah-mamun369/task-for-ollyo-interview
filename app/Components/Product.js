@@ -68,6 +68,7 @@ const Product = (props) => {
                         )
                     }
                 </Draggable>
+
             </div>
 
 

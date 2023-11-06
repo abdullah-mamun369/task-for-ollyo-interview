@@ -22,6 +22,7 @@ export default function Home() {
 
   //fetching the data=====================================================================================
   useEffect(() => {
+    setIsLoading(true)
     fetch("images.json")
       .then(res => res.json())
       .then(data => shuffle(data))
@@ -140,10 +141,10 @@ export default function Home() {
                     >
                     </Product>)
                   }
-                  {isLoading && <button className='w-full h-full border-2 border-gray-400 border-dashed rounded-lg bg-gray-100 flex flex-col justify-center items-center'>
+                  <button className='w-full h-full border-2 border-gray-400 border-dashed rounded-lg bg-gray-100 flex flex-col justify-center items-center'>
                     <BsCardImage className='text-4xl text-gray-500' />
                     <h1 className='text-2xl font-bold text-gray-500'>Add Images</h1>
-                  </button>}
+                  </button>
                 </div>
 
               )}
