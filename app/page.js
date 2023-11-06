@@ -77,7 +77,17 @@ export default function Home() {
   const handleOnDragEnd = (result) => {
     console.log(result);
 
-    [shuffledData[result.destination.index], shuffledData[result.source.index]] = [shuffledData[result.source.index], shuffledData[result.destination.index]]
+    // [shuffledData[result.destination.index], shuffledData[result.source.index]] = [shuffledData[result.source.index], shuffledData[result.destination.index]]
+
+    if (!result.destination) {
+      return; // The item was dropped outside of any valid drop targets
+    }
+
+    const reorderedItems = Array.from(shuffledData);
+    const [reorderedItem] = reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination.index, 0, reorderedItem);
+
+    setShuffledData(reorderedItems);
 
   }
 
@@ -110,10 +120,11 @@ export default function Home() {
 
         {/* Drag&Drop box start================================================= */}
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="18" type="group" >
+          <Droppable droppableId="vertical" type="group" direction="horizontal">
 
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto w-full xl:w-8/12 grid grid-cols-5 gap-3'>
+
+              <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto xl:w-8/12 grid grid-cols-5 gap-3 '>
                 {shuffledData &&
                   shuffledData.map((product, index) => <Product
                     key={product.id}
@@ -125,6 +136,7 @@ export default function Home() {
                   </Product>)
                 }
               </div>
+
             )}
           </Droppable>
         </DragDropContext>
