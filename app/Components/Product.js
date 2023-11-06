@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { Draggable } from "react-beautiful-dnd"
 
 const Product = (props) => {
 
@@ -47,7 +47,7 @@ const Product = (props) => {
         )
     } else {
         return (
-            <div>
+            <div className='col-span-1 border rounded-lg'>
                 <Draggable draggableId={draggableId} index={index}>
                     {
                         (provided) => (

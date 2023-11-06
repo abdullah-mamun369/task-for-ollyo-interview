@@ -1,13 +1,12 @@
 "use client"
 
-import Image from 'next/image'
-import logo from "./assets/ollyo.png"
+
+
 import { BsFillCheckSquareFill } from 'react-icons/bs'
 import { TbArrowsShuffle2 } from 'react-icons/tb'
-import image1 from "./assets/images/image-10.jpeg"
 import { useEffect, useState } from 'react'
 import Product from './Components/Product'
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
 export default function Home() {
 
@@ -54,7 +53,7 @@ export default function Home() {
 
 
 
-  //Shuffle the images============================================================
+  //Shuffle the images===================================================================================
   function shuffleImg(img) {
     const shuffleImg = [...img]
 
@@ -80,7 +79,7 @@ export default function Home() {
     // [shuffledData[result.destination.index], shuffledData[result.source.index]] = [shuffledData[result.source.index], shuffledData[result.destination.index]]
 
     if (!result.destination) {
-      return; // The item was dropped outside of any valid drop targets
+      return;
     }
 
     const reorderedItems = Array.from(shuffledData);
@@ -92,9 +91,6 @@ export default function Home() {
   }
 
 
-
-
-
   return (
     <>
       <main>
@@ -103,15 +99,15 @@ export default function Home() {
         <nav className='border-b-2 mb-5'>
           {
             selected === 0 ?
-              <div className='h-16 flex items-center justify-between mx-auto w-full xl:w-8/12'>
+              <div className='h-16 flex items-center justify-between mx-auto w-full md:w-10/12 xl:w-8/12 p-5 md:p-0 '>
                 <h1 className='text-3xl font-bold'>Gallery</h1>
-                <button onClick={() => shuffle(shuffledData)} className='font-bold text-purple-700 hover:text-blue-700 mr-5 flex items-center'> <TbArrowsShuffle2 className='mr-2 text-2xl' /> Shuffle Images</button>
+                <button onClick={() => shuffle(shuffledData)} className='font-bold text-purple-700 hover:text-blue-700 mr-5 hidden md:flex items-center'> <TbArrowsShuffle2 className='mr-2 text-2xl' /> Shuffle Images</button>
               </div>
               :
-              <div className='h-16 flex items-center mx-auto w-full xl:w-8/12 justify-between'>
+              <div className='h-16 flex items-center mx-auto w-full md:w-10/12 xl:w-8/12 p-5 md:p-0 justify-between'>
                 {/* <input className='form-checkbox h-6 w-6 rounded-full text-purple-600' type="checkbox" checked /> */}
                 <h3 className='flex items-center text-xl font-bold'><BsFillCheckSquareFill className=' text-purple-700 mr-2' /> {selected} Files Selected</h3>
-                <button onClick={() => shuffle(shuffledData)} className='font-bold text-purple-700 hover:text-blue-700 mr-5 flex items-center'> <TbArrowsShuffle2 className='mr-2 text-2xl' /> Shuffle Images</button>
+                <button onClick={() => shuffle(shuffledData)} className='font-bold text-purple-700 hover:text-blue-700 mr-5 hidden md:flex items-center'> <TbArrowsShuffle2 className='mr-2 text-2xl' /> Shuffle Images</button>
                 <button onClick={handleDelete} className='font-bold text-red-700'>Delete file</button>
 
               </div>
@@ -120,25 +116,27 @@ export default function Home() {
 
         {/* Drag&Drop box start================================================= */}
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="vertical" type="group" direction="horizontal">
+          <div>
+            <Droppable droppableId="imagesss" type="group" direction="horizontal">
 
-            {(provided) => (
+              {(provided) => (
 
-              <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto xl:w-8/12 grid grid-cols-5 gap-3 '>
-                {shuffledData &&
-                  shuffledData.map((product, index) => <Product
-                    key={product.id}
-                    product={product}
-                    handleSelected={handleSelected}
-                    index={index}
-                    draggableId={product.id}
-                  >
-                  </Product>)
-                }
-              </div>
+                <div {...provided.droppableProps} ref={provided.innerRef} className='mx-auto grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:w-10/12 xl:w-8/12 p-5 md:p-0'>
+                  {shuffledData &&
+                    shuffledData.map((product, index) => <Product
+                      key={product.id}
+                      product={product}
+                      handleSelected={handleSelected}
+                      index={index}
+                      draggableId={product.id}
+                    >
+                    </Product>)
+                  }
+                </div>
 
-            )}
-          </Droppable>
+              )}
+            </Droppable>
+          </div>
         </DragDropContext>
 
 
